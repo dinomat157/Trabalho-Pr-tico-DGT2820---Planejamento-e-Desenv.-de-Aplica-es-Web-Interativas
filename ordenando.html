@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ordenacao de Valores</title>
+    <script src="ordenando.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .controls {
+            margin-bottom: 20px;
+        }
+        input, select, button {
+            margin: 5px;
+            padding: 5px;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            padding: 5px;
+            margin: 2px 0;
+            background-color: #f0f0f0;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Ordenacao de Valores</h1>
+    
+    <div class="controls">
+        <input type="number" id="valor" placeholder="Digite um valor">
+        <button onclick="add()">Adicionar</button>
+    </div>
+    
+    <div class="controls">
+        <select id="algoritmo">
+            <option value="0" selected>Bubble Sort</option>
+            <option value="1">Selection Sort</option>
+            <option value="2">Quick Sort</option>
+        </select>
+        <button onclick="ordenar()">Ordenar</button>
+        <button onclick="misturar()">Misturar</button>
+    </div>
+    
+    <ul id="valores"></ul>
+    
+    <script>
+        function add() {
+            //pega o campo de entrada e a lista
+            const inputValor = document.getElementById('valor')
+            const listaValores = document.getElementById('valores')
+            
+            //se nao digitar nada, mostra alerta
+            if (inputValor.value.trim() === '') {
+                alert('Digite um valor!')
+                return
+            }
+            
+            //cria um item na lista
+            const item = document.createElement('li')
+            item.textContent = inputValor.value
+            listaValores.appendChild(item)
+            
+            //limpa e foca no input de novo
+            inputValor.value = ''
+            inputValor.focus()
+        }
+        
+        function ordenar() {
+            //pega a lista e o algoritmo selecionado
+            const lista = document.getElementById('valores')
+            const algoritmo = document.getElementById('algoritmo')
+            
+            //se nao tiver nada na lista
+            if (lista.children.length === 0) {
+                alert('Adicione valores primeiro!')
+                return
+            }
+            
+            //transforma a lista em um array de numeros
+            const valores = []
+            for (let i = 0; i < lista.children.length; i++) {
+                valores.push(Number(lista.children[i].textContent))
+            }
+            
+            //roda o algoritmo escolhido
+            switch (algoritmo.selectedIndex) {
+                case 0:
+                    bubble_sort(valores)
+                    break
+                case 1:
+                    selection_sort(valores)
+                    break
+                case 2:
+                    quick_sort(valores, 0, valores.length - 1)
+                    break
+            }
+            
+            //atualiza a lista na tela
+            lista.innerHTML = valores.map(v => `<li>${v}</li>`).join('')
+        }
+        
+        function misturar() {
+            //pega a lista
+            const lista = document.getElementById('valores')
+            
+            //se nao tiver nada na lista
+            if (lista.children.length === 0) {
+                alert('Adicione valores primeiro!')
+                return
+            }
+            
+            //pega os valores e transforma em array
+            const valores = []
+            for (let i = 0; i < lista.children.length; i++) {
+                valores.push(Number(lista.children[i].textContent))
+            }
+            
+            //embaralha os valores
+            shuffle(valores, valores.length * 2)
+            
+            //mostra de novo na tela
+            lista.innerHTML = valores.map(v => `<li>${v}</li>`).join('')
+        }
+    </script>
+</body>
+</html>

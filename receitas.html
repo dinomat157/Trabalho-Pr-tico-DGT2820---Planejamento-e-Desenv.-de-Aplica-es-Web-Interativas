@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Catalogo de Receitas</title>
+  
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <style>
+    .card {
+      margin: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    .card-img-top {
+      height: 180px;
+      object-fit: cover;
+    }
+  </style>
+</head>
+
+<body class="bg-warning" onload="preencheCatalogo()">
+  <div class="container-fluid">
+    <h1 class="text-center my-4">Catalogo de Receitas</h1>
+    <div id="pnlCatalogo" class="d-flex flex-wrap justify-content-center"></div>
+  </div>
+
+  <script>
+    //lista basica de receitas
+    const receitas = [
+      {
+        titulo: "Bolo de Chocolate",
+        imagem: "https://images.unsplash.com/photo-1606313564200-e75d5e30476c?auto=format&fit=crop&w=500&q=60",
+        ingredientes: [
+          "2 xicaras de farinha de trigo",
+          "1 xicara de acucar",
+          "1 xicara de chocolate em po",
+          "1 colher de sopa de fermento em po",
+          "1/2 xicara de oleo",
+          "3 ovos",
+          "1 xicara de leite"
+        ],
+        preparo: "Mistura tudo, bate bem e leva pro forno a 180 graus por uns 40 minutos."
+      },
+      {
+        titulo: "Pao Caseiro",
+        imagem: "https://images.unsplash.com/photo-1608198093002-ad4e005484ec?auto=format&fit=crop&w=500&q=60",
+        ingredientes: [
+          "1 kg de farinha de trigo",
+          "1 colher de sal",
+          "1 colher de acucar",
+          "2 colheres de manteiga",
+          "2 tabletes de fermento biologico",
+          "2 xicaras de agua morna"
+        ],
+        preparo: "Dissolve o fermento na agua morna, mistura o resto, deixa crescer e assa a 200 graus por 30 min."
+      },
+      {
+        titulo: "Salada Caesar",
+        imagem: "https://images.unsplash.com/photo-1550304943-4f24f54ddde9?auto=format&fit=crop&w=500&q=60",
+        ingredientes: [
+          "1 alface americana",
+          "2 peitos de frango grelhados",
+          "Croutons",
+          "Queijo parmesao ralado",
+          "Molho caesar"
+        ],
+        preparo: "Joga tudo na tigela, mistura bem com o molho e finaliza com parmesao por cima."
+      },
+      {
+        titulo: "Lasanha a Bolonhesa",
+        imagem: "https://images.unsplash.com/photo-1619895092538-128341789043?auto=format&fit=crop&w=500&q=60",
+        ingredientes: [
+          "500g de massa pra lasanha",
+          "500g de carne moida",
+          "2 latas de molho de tomate",
+          "2 cebolas picadas",
+          "3 dentes de alho picados",
+          "500g de queijo mussarela",
+          "Queijo parmesao ralado",
+          "Sal e pimenta a gosto"
+        ],
+        preparo: "Refoga tudo, monta as camadas e leva pro forno a 180 graus por 30 min."
+      }
+    ]
+
+    //monta a lista de ingredientes
+    const getListaIngredientes = (r) => {
+      let html = '<ul>'
+      html += r.ingredientes.map(i => `<li>${i}</li>`).join('')
+      html += '</ul>'
+      return html
+    }
+
+    //monta o card de cada receita
+    const getCard = (r) => {
+      return `
+        <div class="card" style="width: 250px;">
+          <img src="${r.imagem}" class="card-img-top" alt="${r.titulo}">
+          <div class="card-body">
+            <h5 class="card-title">${r.titulo}</h5>
+            <div class="card-text">
+              ${getListaIngredientes(r)}
+              <hr>
+              ${r.preparo}
+            </div>
+          </div>
+        </div>
+      `
+    }
+
+    //joga tudo na tela
+    function preencheCatalogo() {
+      const painel = document.getElementById('pnlCatalogo')
+      const html = receitas.map(r => getCard(r)).join('')
+      painel.innerHTML = html
+      console.log('receitas carregadas')
+    }
+  </script>
+</body>
+</html>
